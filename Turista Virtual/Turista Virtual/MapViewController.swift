@@ -14,6 +14,12 @@ class MapViewController: UIViewController {
     // MARK: IBOutlets
     @IBOutlet weak var mapView: MKMapView!
     
+    // MARK: Private constants
+    private let latitudeValueKey:String = "LatitudeValueKey"
+    private let longitudeValueKey:String = "LongitudeValueKey"
+    private let latitudeSpanValueKey:String = "LatitudeSpanValueKey"
+    private let longitudeSpanValueKey:String = "LongitudeSpanValueKey"
+    
     // MARK: Private properties
     private var currentAnnotation:MKPointAnnotation?
     
@@ -25,21 +31,39 @@ class MapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // MARK: Private functions
     private func configureMapView() {
-        mapView.delegate = self
+        // Add long press event to put pins
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(addPinToMap(longGesture:)))
         mapView.addGestureRecognizer(longGesture)
+        
+        // Center map if there's any object recorded
+        centerMap()
+        
+        // Set delegate of the map view to self (functions in extenstion below)
+        mapView.delegate = self
+    }
+    
+    private func centerMap() {
+        if let recordedLatitude = UserDefaults.standard.object(forKey: latitudeValueKey) as? CLLocationDegrees,
+            let recordedLongitude = UserDefaults.standard.object(forKey: longitudeValueKey)  as? CLLocationDegrees,
+            let recordedSpanLatitude = UserDefaults.standard.object(forKey: latitudeSpanValueKey) as? CLLocationDegrees,
+            let recordedSpanLongitude = UserDefaults.standard.object(forKey: longitudeSpanValueKey)  as? CLLocationDegrees
+        {
+            let newCenter:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: recordedLatitude, longitude: recordedLongitude)
+            let newSpan:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: recordedSpanLatitude, longitudeDelta: recordedSpanLongitude)
+            let newRegion:MKCoordinateRegion = MKCoordinateRegion(center: newCenter, span: newSpan)
+            let regionThatFits = mapView.regionThatFits(newRegion)
+            mapView.setRegion(regionThatFits, animated: true)
+        }
     }
     
     @objc private func addPinToMap(longGesture: UIGestureRecognizer) {
@@ -59,7 +83,7 @@ class MapViewController: UIViewController {
                 currentAnnotation.coordinate = newCoordinates
             }
         } else if longGesture.state == .ended {
-            // If the user lift the finger
+            // If the user lift the finger, work is done. Let's nil the current annotation object
             currentAnnotation = nil
         }
     }
@@ -67,11 +91,20 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController: MKMapViewDelegate {
+    
     // MARK: Mapview Delegate Functions
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
             print("Did select: ", annotation.coordinate)
         }
     }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        UserDefaults.standard.set(mapView.region.center.latitude, forKey: latitudeValueKey)
+        UserDefaults.standard.set(mapView.region.center.longitude, forKey: longitudeValueKey)
+        UserDefaults.standard.set(mapView.region.span.latitudeDelta, forKey: latitudeSpanValueKey)
+        UserDefaults.standard.set(mapView.region.span.longitudeDelta, forKey: longitudeSpanValueKey)
+    }
 }
+
 
