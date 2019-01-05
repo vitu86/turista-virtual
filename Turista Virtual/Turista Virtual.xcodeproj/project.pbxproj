@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A8C951321E171FD006590B5 /* Turista Virtual.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4A8C951121E171FD006590B5 /* Turista Virtual.xcdatamodeld */; };
+		4A8C951521E174BE006590B5 /* DataControllerSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8C951421E174BE006590B5 /* DataControllerSingleton.swift */; };
 		4ABD224E21E12DD900B8BC47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD224D21E12DD900B8BC47 /* AppDelegate.swift */; };
 		4ABD225021E12DD900B8BC47 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD224F21E12DD900B8BC47 /* MapViewController.swift */; };
 		4ABD225321E12DDA00B8BC47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4ABD225121E12DDA00B8BC47 /* Main.storyboard */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A8C951221E171FD006590B5 /* Turista Virtual.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Turista Virtual.xcdatamodel"; sourceTree = "<group>"; };
+		4A8C951421E174BE006590B5 /* DataControllerSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataControllerSingleton.swift; sourceTree = "<group>"; };
 		4ABD224A21E12DD900B8BC47 /* Turista Virtual.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Turista Virtual.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ABD224D21E12DD900B8BC47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4ABD224F21E12DD900B8BC47 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -37,6 +41,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A8C950D21E17116006590B5 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4ABD224F21E12DD900B8BC47 /* MapViewController.swift */,
+				4ABD225F21E1349100B8BC47 /* PhotoAlbumViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		4A8C950E21E17124006590B5 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				4ABD225621E12DDB00B8BC47 /* LaunchScreen.storyboard */,
+				4ABD225121E12DDA00B8BC47 /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		4A8C950F21E17140006590B5 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				4ABD225421E12DDB00B8BC47 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		4A8C951021E171A1006590B5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4A8C951121E171FD006590B5 /* Turista Virtual.xcdatamodeld */,
+				4A8C951421E174BE006590B5 /* DataControllerSingleton.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		4ABD224121E12DD900B8BC47 = {
 			isa = PBXGroup;
 			children = (
@@ -57,12 +96,11 @@
 			isa = PBXGroup;
 			children = (
 				4ABD224D21E12DD900B8BC47 /* AppDelegate.swift */,
-				4ABD225421E12DDB00B8BC47 /* Assets.xcassets */,
+				4A8C950F21E17140006590B5 /* Assets */,
 				4ABD225921E12DDB00B8BC47 /* Info.plist */,
-				4ABD225621E12DDB00B8BC47 /* LaunchScreen.storyboard */,
-				4ABD225121E12DDA00B8BC47 /* Main.storyboard */,
-				4ABD224F21E12DD900B8BC47 /* MapViewController.swift */,
-				4ABD225F21E1349100B8BC47 /* PhotoAlbumViewController.swift */,
+				4A8C951021E171A1006590B5 /* Model */,
+				4A8C950E21E17124006590B5 /* Storyboards */,
+				4A8C950D21E17116006590B5 /* ViewControllers */,
 			);
 			path = "Turista Virtual";
 			sourceTree = "<group>";
@@ -138,9 +176,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A8C951521E174BE006590B5 /* DataControllerSingleton.swift in Sources */,
 				4ABD225021E12DD900B8BC47 /* MapViewController.swift in Sources */,
 				4ABD224E21E12DD900B8BC47 /* AppDelegate.swift in Sources */,
 				4ABD226021E1349100B8BC47 /* PhotoAlbumViewController.swift in Sources */,
+				4A8C951321E171FD006590B5 /* Turista Virtual.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +380,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4A8C951121E171FD006590B5 /* Turista Virtual.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4A8C951221E171FD006590B5 /* Turista Virtual.xcdatamodel */,
+			);
+			currentVersion = 4A8C951221E171FD006590B5 /* Turista Virtual.xcdatamodel */;
+			path = "Turista Virtual.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4ABD224221E12DD900B8BC47 /* Project object */;
 }

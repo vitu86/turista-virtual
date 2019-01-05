@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class MapViewController: UIViewController {
     
@@ -45,6 +46,9 @@ class MapViewController: UIViewController {
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(addPinToMap(longGesture:)))
         mapView.addGestureRecognizer(longGesture)
         
+        // Fill map with saved data (if any)
+        fillMap()
+        
         // Center map if there's any object recorded
         centerMap()
         
@@ -52,7 +56,24 @@ class MapViewController: UIViewController {
         mapView.delegate = self
     }
     
+    private func fillMap() {
+        let fetch:NSFetchRequest<Pin> = Pin.fetchRequest()
+        if let result = try? DataControllerSingleton.shared.viewContext.fetch(fetch) {
+            for item in result {
+                addPinToMap(item)
+            }
+        }
+    }
+    
+    private func addPinToMap(_ pin:Pin) {
+        let newAnnotation = MKPointAnnotation()
+        newAnnotation.coordinate.latitude = pin.latitude
+        newAnnotation.coordinate.longitude = pin.longitude
+        mapView.addAnnotation(newAnnotation)
+    }
+    
     private func centerMap() {
+        // Check if there's any object recorded, then make the new region for the map and set it
         if let recordedLatitude = UserDefaults.standard.object(forKey: latitudeValueKey) as? CLLocationDegrees,
             let recordedLongitude = UserDefaults.standard.object(forKey: longitudeValueKey)  as? CLLocationDegrees,
             let recordedSpanLatitude = UserDefaults.standard.object(forKey: latitudeSpanValueKey) as? CLLocationDegrees,
@@ -67,7 +88,6 @@ class MapViewController: UIViewController {
     }
     
     @objc private func addPinToMap(longGesture: UIGestureRecognizer) {
-        
         // Define coordinates
         let touchPoint = longGesture.location(in: mapView)
         let newCoordinates = mapView.convert(touchPoint, toCoordinateFrom: mapView)
@@ -83,11 +103,19 @@ class MapViewController: UIViewController {
                 currentAnnotation.coordinate = newCoordinates
             }
         } else if longGesture.state == .ended {
-            // If the user lift the finger, work is done. Let's nil the current annotation object
+            // If the user lift the finger, work is done.
+            // Let's nil the current annotation object and save the pin to coredata.
+            setPintToCoreData(pinToSave: currentAnnotation!.coordinate)
             currentAnnotation = nil
         }
     }
     
+    private func setPintToCoreData(pinToSave:CLLocationCoordinate2D) {
+        let pin:Pin = Pin(context: DataControllerSingleton.shared.viewContext)
+        pin.latitude = pinToSave.latitude
+        pin.longitude = pinToSave.longitude
+        try? DataControllerSingleton.shared.viewContext.save()
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
