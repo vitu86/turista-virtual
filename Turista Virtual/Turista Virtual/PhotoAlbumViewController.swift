@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PhotoAlbumViewController.swift
 //  Turista Virtual
 //
 //  Created by Vitor Costa on 05/01/19.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class PhotoAlbumViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
-
+    
+    
 }
 

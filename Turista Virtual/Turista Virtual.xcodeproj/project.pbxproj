@@ -8,20 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		4ABD224E21E12DD900B8BC47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD224D21E12DD900B8BC47 /* AppDelegate.swift */; };
-		4ABD225021E12DD900B8BC47 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD224F21E12DD900B8BC47 /* ViewController.swift */; };
+		4ABD225021E12DD900B8BC47 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD224F21E12DD900B8BC47 /* MapViewController.swift */; };
 		4ABD225321E12DDA00B8BC47 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4ABD225121E12DDA00B8BC47 /* Main.storyboard */; };
 		4ABD225521E12DDB00B8BC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4ABD225421E12DDB00B8BC47 /* Assets.xcassets */; };
 		4ABD225821E12DDB00B8BC47 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4ABD225621E12DDB00B8BC47 /* LaunchScreen.storyboard */; };
+		4ABD226021E1349100B8BC47 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD225F21E1349100B8BC47 /* PhotoAlbumViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4ABD224A21E12DD900B8BC47 /* Turista Virtual.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Turista Virtual.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ABD224D21E12DD900B8BC47 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4ABD224F21E12DD900B8BC47 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4ABD224F21E12DD900B8BC47 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		4ABD225221E12DDA00B8BC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4ABD225421E12DDB00B8BC47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4ABD225721E12DDB00B8BC47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4ABD225921E12DDB00B8BC47 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4ABD225F21E1349100B8BC47 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,11 +57,12 @@
 			isa = PBXGroup;
 			children = (
 				4ABD224D21E12DD900B8BC47 /* AppDelegate.swift */,
-				4ABD224F21E12DD900B8BC47 /* ViewController.swift */,
-				4ABD225121E12DDA00B8BC47 /* Main.storyboard */,
 				4ABD225421E12DDB00B8BC47 /* Assets.xcassets */,
-				4ABD225621E12DDB00B8BC47 /* LaunchScreen.storyboard */,
 				4ABD225921E12DDB00B8BC47 /* Info.plist */,
+				4ABD225621E12DDB00B8BC47 /* LaunchScreen.storyboard */,
+				4ABD225121E12DDA00B8BC47 /* Main.storyboard */,
+				4ABD224F21E12DD900B8BC47 /* MapViewController.swift */,
+				4ABD225F21E1349100B8BC47 /* PhotoAlbumViewController.swift */,
 			);
 			path = "Turista Virtual";
 			sourceTree = "<group>";
@@ -135,8 +138,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ABD225021E12DD900B8BC47 /* ViewController.swift in Sources */,
+				4ABD225021E12DD900B8BC47 /* MapViewController.swift in Sources */,
 				4ABD224E21E12DD900B8BC47 /* AppDelegate.swift in Sources */,
+				4ABD226021E1349100B8BC47 /* PhotoAlbumViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
