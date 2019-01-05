@@ -33,6 +33,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="l1r-hE-s8O"/>
                     <connections>
+                        <outlet property="mapView" destination="AOP-Hc-XhF" id="nYL-76-eZz"/>
                         <segue destination="meE-df-aKV" kind="show" identifier="segueToPhotoAlbum" id="O7n-5F-mCO"/>
                     </connections>
                 </viewController>
