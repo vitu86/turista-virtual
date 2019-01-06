@@ -46,10 +46,7 @@ class MapViewController: UIViewController {
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(addPinToMap(longGesture:)))
         mapView.addGestureRecognizer(longGesture)
         
-        // Fill map with saved data (if any)
         fillMap()
-        
-        // Center map if there's any object recorded
         centerMap()
         
         // Set delegate of the map view to self (functions in extenstion below)
@@ -57,6 +54,7 @@ class MapViewController: UIViewController {
     }
     
     private func fillMap() {
+        // Fill map with saved data (if any)
         let fetch:NSFetchRequest<Pin> = Pin.fetchRequest()
         if let result = try? DataControllerSingleton.shared.viewContext.fetch(fetch) {
             for item in result {
@@ -111,10 +109,13 @@ class MapViewController: UIViewController {
     }
     
     private func setPintToCoreData(pinToSave:CLLocationCoordinate2D) {
+        // Save the pin to core data
         let pin:Pin = Pin(context: DataControllerSingleton.shared.viewContext)
         pin.latitude = pinToSave.latitude
         pin.longitude = pinToSave.longitude
         try? DataControllerSingleton.shared.viewContext.save()
+        // Put its image list to download in background
+        FlickrHelper.shared.downloadPhotosFromPin(pin)
     }
 }
 
