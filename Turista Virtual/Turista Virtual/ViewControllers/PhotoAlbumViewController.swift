@@ -43,7 +43,6 @@ class PhotoAlbumViewController: UIViewController {
     
     private func loadData() {
         listOfPhotos = DataHelper.shared.getPhotosFromCurrentAnnotation()
-        print("List photos count: ", listOfPhotos.count)
         collectionView.reloadData()
     }
     
@@ -90,14 +89,13 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell:PhotoAlbumCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCell", for: indexPath) as! PhotoAlbumCell
         let photo = listOfPhotos[indexPath.row]
-        print("Carregando imagem numero: ", indexPath.row)
         if let imageData = photo.image {
             cell.imageView.image = UIImage(data: imageData)
+            cell.imageView.contentMode = .scaleAspectFill
+            cell.imageView.clipsToBounds = true
         } else {
             cell.imageView.image = #imageLiteral(resourceName: "ImageIcon")
-//            photo.loadImageFromURL(photo.url!) { (image) in
-//                cell.imageView.image = image
-//            }
+            ImageDownloadManager.shared.downloadImage(from: photo, toShowIn: collectionView, at: indexPath)
         }
         
         return cell

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ImageDownloadManager {
     
@@ -17,4 +18,15 @@ class ImageDownloadManager {
     private init() {
     }
     
+    func downloadImage(from photo:Photo, toShowIn collectionView:UICollectionView, at indexPath:IndexPath) {
+        DispatchQueue.global(qos: .background).async {
+            if let imageData:Data = try? Data(contentsOf: URL(string: photo.url!)!) {
+                photo.image = imageData
+                DispatchQueue.main.async {
+                    try? CoreDataHelper.shared.viewContext.save()
+                    collectionView.reloadItems(at: [indexPath])
+                }
+            }
+        }
+    }
 }

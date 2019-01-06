@@ -48,12 +48,13 @@ class CoreDataHelper {
         return result
     }
     
-    func setPintToCoreData(pinToSave:CLLocationCoordinate2D) {
+    func setPintToCoreData(pinToSave:CLLocationCoordinate2D) -> Pin{
         // Save the pin to core data
         let pin:Pin = Pin(context: viewContext)
         pin.latitude = pinToSave.latitude
         pin.longitude = pinToSave.longitude
         try? viewContext.save()
+        return pin
     }
     
     func getPinFromCoordinate(_ coord:CLLocationCoordinate2D) -> Pin? {
@@ -77,9 +78,14 @@ class CoreDataHelper {
         let predicate = NSPredicate(format: "pin == %@", pin)
         fetchRequest.predicate = predicate
         var result:[Photo] = []
-        if let photos = try? CoreDataHelper.shared.viewContext.fetch(fetchRequest) {
+        if let photos = try? viewContext.fetch(fetchRequest) {
             result = photos
         }
         return result
+    }
+    
+    func resetPhotosFromPin(_ pin:Pin) {
+        pin.photos = []
+        try? viewContext.save()
     }
 }

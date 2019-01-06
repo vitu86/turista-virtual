@@ -34,7 +34,7 @@ class FlickrHelper {
         latitude = pin.latitude
         longitude = pin.longitude
         
-        getPhotoListURL = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(flickr_api_key)&lat=\(latitude)&lon=\(longitude)&format=json&nojsoncallback=1"
+        getPhotoListURL = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(flickr_api_key)&lat=\(latitude)&lon=\(longitude)&per_page=30&format=json&nojsoncallback=1"
         
         // cancel tasks so we dont have problems with photos in wrong pins
         if let getPhotoListTask = getPhotoListTask {
@@ -49,7 +49,6 @@ class FlickrHelper {
     
     // Get photo list and call download image url
     private func getPhotoList() {
-        print("URL PARA BAIXAR IMAGENS: ", getPhotoListURL)
         let request = NSMutableURLRequest(url: URL(string: getPhotoListURL)!)
         let session = URLSession.shared
         getPhotoListTask = session.dataTask(with: request as URLRequest) { data, response, error in
@@ -75,7 +74,7 @@ class FlickrHelper {
     
     // Download image url and call download image data
     private func getPhotoImageURL (id: String) {
-        getImageFromPhotoURL = "https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=\(flickr_api_key)&photo_id=\(id)&per_page=30&format=json&nojsoncallback=1"
+        getImageFromPhotoURL = "https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=\(flickr_api_key)&photo_id=\(id)&format=json&nojsoncallback=1"
         
         let request = NSMutableURLRequest(url: URL(string: getImageFromPhotoURL)!)
         let session = URLSession.shared
@@ -91,7 +90,7 @@ class FlickrHelper {
                     for sizeItem in sizes {
                         if sizeItem["label"] as! String == "Thumbnail" {
                             let newPhoto:Photo = Photo(context: CoreDataHelper.shared.viewContext)
-                            newPhoto.loadImageFromURL(sizeItem["source"] as! String)
+                            newPhoto.url = (sizeItem["source"] as! String)
                             self.currentPin?.addToPhotos(newPhoto)
                             try? CoreDataHelper.shared.viewContext.save()
                         }

@@ -10,7 +10,6 @@
 		4A11EF4821E1ACD700FD11FD /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11EF4721E1ACD700FD11FD /* CoreDataHelper.swift */; };
 		4A8C951321E171FD006590B5 /* Turista Virtual.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4A8C951121E171FD006590B5 /* Turista Virtual.xcdatamodeld */; };
 		4A8C951821E17DF8006590B5 /* FlickrHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8C951721E17DF8006590B5 /* FlickrHelper.swift */; };
-		4A8C951E21E189B4006590B5 /* Photo+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8C951D21E189B4006590B5 /* Photo+Extension.swift */; };
 		4A901FBF21E26C7C003192BF /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A901FBE21E26C7C003192BF /* DataHelper.swift */; };
 		4A901FC121E27583003192BF /* ImageDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A901FC021E27583003192BF /* ImageDownloadManager.swift */; };
 		4ABD224E21E12DD900B8BC47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABD224D21E12DD900B8BC47 /* AppDelegate.swift */; };
@@ -25,7 +24,6 @@
 		4A11EF4721E1ACD700FD11FD /* CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
 		4A8C951221E171FD006590B5 /* Turista Virtual.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Turista Virtual.xcdatamodel"; sourceTree = "<group>"; };
 		4A8C951721E17DF8006590B5 /* FlickrHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrHelper.swift; sourceTree = "<group>"; };
-		4A8C951D21E189B4006590B5 /* Photo+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+Extension.swift"; sourceTree = "<group>"; };
 		4A901FBE21E26C7C003192BF /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		4A901FC021E27583003192BF /* ImageDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadManager.swift; sourceTree = "<group>"; };
 		4ABD224A21E12DD900B8BC47 /* Turista Virtual.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Turista Virtual.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,7 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				4A8C951121E171FD006590B5 /* Turista Virtual.xcdatamodeld */,
-				4A8C951D21E189B4006590B5 /* Photo+Extension.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -198,7 +195,6 @@
 			files = (
 				4A8C951821E17DF8006590B5 /* FlickrHelper.swift in Sources */,
 				4A11EF4821E1ACD700FD11FD /* CoreDataHelper.swift in Sources */,
-				4A8C951E21E189B4006590B5 /* Photo+Extension.swift in Sources */,
 				4ABD225021E12DD900B8BC47 /* MapViewController.swift in Sources */,
 				4ABD224E21E12DD900B8BC47 /* AppDelegate.swift in Sources */,
 				4A901FBF21E26C7C003192BF /* DataHelper.swift in Sources */,

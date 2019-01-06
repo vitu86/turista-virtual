@@ -66,7 +66,8 @@ class DataHelper {
     }
     
     func saveNewAnnotationAsPin (_ annotation:MKPointAnnotation) {
-        CoreDataHelper.shared.setPintToCoreData(pinToSave: annotation.coordinate)
+        let pin = CoreDataHelper.shared.setPintToCoreData(pinToSave: annotation.coordinate)
+        FlickrHelper.shared.downloadPhotosFromPin(pin)
     }
     
     func getPhotosFromCurrentAnnotation () -> [Photo] {
@@ -74,6 +75,13 @@ class DataHelper {
             return CoreDataHelper.shared.getPhotosFromPin(pin)
         } else {
             return []
+        }
+    }
+    
+    func reloadPhotosFromCurrentAnnotation () {
+        if let pin:Pin = CoreDataHelper.shared.getPinFromCoordinate(currentAnnotation!.coordinate){
+            CoreDataHelper.shared.resetPhotosFromPin(pin)
+            FlickrHelper.shared.downloadPhotosFromPin(pin)
         }
     }
 }
