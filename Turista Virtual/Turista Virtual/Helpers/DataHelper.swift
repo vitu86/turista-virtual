@@ -78,4 +78,11 @@ class DataHelper {
     func deletePhoto(_ photo:Photo) {
         CoreDataHelper.shared.deletePhoto(photo)
     }
+    
+    func reloadAnnotation(_ annotation:MKPointAnnotation) {
+        if let pin:Pin = CoreDataHelper.shared.getPinFromCoordinate(annotation.coordinate){
+            CoreDataHelper.shared.resetPhotosFrom(pin: pin)
+            FlickrHelper.shared.downloadPhotosFromPin(pin)
+        }
+    }
 }

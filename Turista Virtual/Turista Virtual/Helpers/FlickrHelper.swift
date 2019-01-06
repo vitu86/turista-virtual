@@ -88,7 +88,7 @@ class FlickrHelper {
                 let sizes = sizeList["size"] as? [[String:Any]]
                 if let sizes = sizes {
                     for sizeItem in sizes {
-                        if sizeItem["label"] as! String == "Thumbnail" {
+                        if sizeItem["label"] as! String == "Square" {
                             let newPhoto:Photo = Photo(context: CoreDataHelper.shared.viewContext)
                             newPhoto.url = (sizeItem["source"] as! String)
                             self.currentPin?.addToPhotos(newPhoto)

@@ -16,6 +16,7 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var newCollectionButton: UIButton!
     
     // MARK: Private properties
     private var fetchedResultsController:NSFetchedResultsController<Photo>!
@@ -29,6 +30,7 @@ class PhotoAlbumViewController: UIViewController {
         centerMap()
         loadData()
         configureLayout()
+        checkForChangeNewCollectionButtonState()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -74,9 +76,21 @@ class PhotoAlbumViewController: UIViewController {
         collectionView.reloadData()
     }
     
+    private func checkForChangeNewCollectionButtonState() {
+        for item in fetchedResultsController.sections![0].objects! {
+            if let item = item as? Photo {
+                if item.image == nil {
+                    newCollectionButton.isEnabled = false
+                    return
+                }
+            }
+        }
+        newCollectionButton.isEnabled = true
+    }
+    
     // MARK: IBActions
     @IBAction func newCollectionTapped(_ sender: Any) {
-        print("Load new collection")
+        DataHelper.shared.reloadAnnotation(annotationToShow)
     }
 }
 
@@ -98,15 +112,20 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
             cell.imageView.image = #imageLiteral(resourceName: "ImageIcon")
             ImageDownloadManager.shared.downloadImage(from: photo, toShowIn: collectionView, at: indexPath)
         }
+        checkForChangeNewCollectionButtonState()
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        showAlert(title: "Atenção", message: "Você deseja remover esta imagem?", okFunction: { (_) in
-            DataHelper.shared.deletePhoto(self.fetchedResultsController.object(at: indexPath))
-        }) { (_) in
-            // Do nothing, popup dismiss itself.
+        if !newCollectionButton.isEnabled {
+            // still loading
+            return
         }
+//        showAlert(title: "Atenção", message: "Você deseja remover esta imagem?", okFunction: { (_) in
+            DataHelper.shared.deletePhoto(self.fetchedResultsController.object(at: indexPath))
+//        }) { (_) in
+            // Do nothing, popup dismiss itself.
+//        }
     }
 }
 

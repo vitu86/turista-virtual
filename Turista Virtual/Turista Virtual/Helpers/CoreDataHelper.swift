@@ -86,4 +86,11 @@ class CoreDataHelper {
         viewContext.delete(photo)
         try? viewContext.save()
     }
+    
+    func resetPhotosFrom(pin:Pin) {
+        for photo in pin.photos! {
+            viewContext.delete(photo as! Photo)
+            try? viewContext.save()
+        }
+    }
 }
