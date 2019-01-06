@@ -20,9 +20,6 @@ class DataHelper {
     private let latitudeSpanValueKey:String = "LatitudeSpanValueKey"
     private let longitudeSpanValueKey:String = "LongitudeSpanValueKey"
     
-    // MARK: Public properties
-    var currentAnnotation:MKPointAnnotation?
-    
     // private init for override purpose
     private init() {
     }
@@ -70,8 +67,8 @@ class DataHelper {
         FlickrHelper.shared.downloadPhotosFromPin(pin)
     }
     
-    func getFetchedResultControllerFromCurrentAnnotation () -> NSFetchedResultsController<Photo>? {
-        if let pin:Pin = CoreDataHelper.shared.getPinFromCoordinate(currentAnnotation!.coordinate){
+    func getFetchedResultControllerFromAnnotation (_ annotation:MKPointAnnotation) -> NSFetchedResultsController<Photo>? {
+        if let pin:Pin = CoreDataHelper.shared.getPinFromCoordinate(annotation.coordinate){
             return CoreDataHelper.shared.getFetchedResultsControllerOfPhotos(from: pin)
         } else {
             return nil

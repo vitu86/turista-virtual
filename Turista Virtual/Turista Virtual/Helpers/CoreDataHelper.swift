@@ -79,7 +79,7 @@ class CoreDataHelper {
         fetchRequest.sortDescriptors = [sortDescriptor]
         let predicate = NSPredicate(format: "pin == %@", pin)
         fetchRequest.predicate = predicate
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: "notebooks")
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
     }
     
     func deletePhoto(_ photo:Photo) {

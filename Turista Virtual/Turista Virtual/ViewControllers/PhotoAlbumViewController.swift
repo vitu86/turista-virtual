@@ -20,6 +20,9 @@ class PhotoAlbumViewController: UIViewController {
     // MARK: Private properties
     private var fetchedResultsController:NSFetchedResultsController<Photo>!
     
+    // MARK: Public properties
+    var annotationToShow:MKPointAnnotation!
+    
     // MARK: Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,16 +38,16 @@ class PhotoAlbumViewController: UIViewController {
     
     // MARK: Private functions
     private func centerMap() {
-        let newCenter:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: DataHelper.shared.currentAnnotation!.coordinate.latitude, longitude: DataHelper.shared.currentAnnotation!.coordinate.longitude)
+        let newCenter:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: annotationToShow.coordinate.latitude, longitude: annotationToShow.coordinate.longitude)
         let newSpan:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
         let newRegion:MKCoordinateRegion = MKCoordinateRegion(center: newCenter , span: newSpan)
         let regionThatFits = mapView.regionThatFits(newRegion)
         mapView.setRegion(regionThatFits, animated: true)
-        mapView.addAnnotation(DataHelper.shared.currentAnnotation!)
+        mapView.addAnnotation(annotationToShow)
     }
     
     private func loadData() {
-        fetchedResultsController = DataHelper.shared.getFetchedResultControllerFromCurrentAnnotation()
+        fetchedResultsController = DataHelper.shared.getFetchedResultControllerFromAnnotation(annotationToShow)
         fetchedResultsController.delegate = self
         do {
             try fetchedResultsController.performFetch()
@@ -95,7 +98,6 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
             cell.imageView.image = #imageLiteral(resourceName: "ImageIcon")
             ImageDownloadManager.shared.downloadImage(from: photo, toShowIn: collectionView, at: indexPath)
         }
-        
         return cell
     }
     

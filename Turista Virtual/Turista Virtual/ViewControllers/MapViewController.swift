@@ -33,6 +33,11 @@ class MapViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! PhotoAlbumViewController
+        vc.annotationToShow = (sender as! MKPointAnnotation)
+    }
+    
     // MARK: Private functions
     private func configureMapView() {
         // Add long press event to put pins
@@ -80,8 +85,7 @@ extension MapViewController: MKMapViewDelegate {
     // MARK: Mapview Delegate Functions
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
-            DataHelper.shared.currentAnnotation = annotation
-            performSegue(withIdentifier: "segueToPhotoAlbum", sender: nil)
+            performSegue(withIdentifier: "segueToPhotoAlbum", sender: annotation)
         }
     }
     
