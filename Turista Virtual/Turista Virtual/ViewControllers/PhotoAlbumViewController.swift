@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class PhotoAlbumViewController: UIViewController {
     
@@ -17,7 +18,7 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     // MARK: Private properties
-    private var listOfPhotos:[Photo] = []
+    private var fetchedResultsController:NSFetchedResultsController<Photo>!
     
     // MARK: Override functions
     override func viewDidLoad() {
@@ -42,8 +43,13 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     private func loadData() {
-        listOfPhotos = DataHelper.shared.getPhotosFromCurrentAnnotation()
-        collectionView.reloadData()
+        fetchedResultsController = DataHelper.shared.getFetchedResultControllerFromCurrentAnnotation()
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
     }
     
     private func configureLayout() {
@@ -83,12 +89,12 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     // MARK: Collection view functions
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return listOfPhotos.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell:PhotoAlbumCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoAlbumCell", for: indexPath) as! PhotoAlbumCell
-        let photo = listOfPhotos[indexPath.row]
+        let photo = fetchedResultsController.object(at: indexPath)
         if let imageData = photo.image {
             cell.imageView.image = UIImage(data: imageData)
             cell.imageView.contentMode = .scaleAspectFill
@@ -99,6 +105,23 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         
         return cell
+    }
+}
+
+extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            collectionView.insertItems(at: [newIndexPath!])
+            break
+        case .delete:
+            collectionView.deleteItems(at: [indexPath!])
+            break
+        case .update:
+            collectionView.reloadItems(at: [indexPath!])
+        case .move:
+            print("Moving item?")
+        }
     }
 }
 

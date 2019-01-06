@@ -73,19 +73,12 @@ class CoreDataHelper {
     }
     
     // MARK: Photos functions
-    func getPhotosFromPin(_ pin:Pin) -> [Photo] {
+    func getFetchedResultsControllerOfPhotos(from pin:Pin) -> NSFetchedResultsController<Photo> {
         let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "url", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
         let predicate = NSPredicate(format: "pin == %@", pin)
         fetchRequest.predicate = predicate
-        var result:[Photo] = []
-        if let photos = try? viewContext.fetch(fetchRequest) {
-            result = photos
-        }
-        return result
-    }
-    
-    func resetPhotosFromPin(_ pin:Pin) {
-        pin.photos = []
-        try? viewContext.save()
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: "notebooks")
     }
 }

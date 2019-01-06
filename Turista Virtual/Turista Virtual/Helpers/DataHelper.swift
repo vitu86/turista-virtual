@@ -70,18 +70,11 @@ class DataHelper {
         FlickrHelper.shared.downloadPhotosFromPin(pin)
     }
     
-    func getPhotosFromCurrentAnnotation () -> [Photo] {
+    func getFetchedResultControllerFromCurrentAnnotation () -> NSFetchedResultsController<Photo>? {
         if let pin:Pin = CoreDataHelper.shared.getPinFromCoordinate(currentAnnotation!.coordinate){
-            return CoreDataHelper.shared.getPhotosFromPin(pin)
+            return CoreDataHelper.shared.getFetchedResultsControllerOfPhotos(from: pin)
         } else {
-            return []
-        }
-    }
-    
-    func reloadPhotosFromCurrentAnnotation () {
-        if let pin:Pin = CoreDataHelper.shared.getPinFromCoordinate(currentAnnotation!.coordinate){
-            CoreDataHelper.shared.resetPhotosFromPin(pin)
-            FlickrHelper.shared.downloadPhotosFromPin(pin)
+            return nil
         }
     }
 }
