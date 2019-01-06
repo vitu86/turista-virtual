@@ -8,18 +8,11 @@
 
 import UIKit
 import MapKit
-import CoreData
 
 class MapViewController: UIViewController {
     
     // MARK: IBOutlets
     @IBOutlet weak var mapView: MKMapView!
-    
-    // MARK: Private constants
-    private let latitudeValueKey:String = "LatitudeValueKey"
-    private let longitudeValueKey:String = "LongitudeValueKey"
-    private let latitudeSpanValueKey:String = "LatitudeSpanValueKey"
-    private let longitudeSpanValueKey:String = "LongitudeSpanValueKey"
     
     // MARK: Private properties
     private var currentAnnotation:MKPointAnnotation?
@@ -46,43 +39,16 @@ class MapViewController: UIViewController {
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(addPinToMap(longGesture:)))
         mapView.addGestureRecognizer(longGesture)
         
-        fillMap()
-        centerMap()
+        // Fill map with saved data (if any)
+        mapView.addAnnotations(DataHelper.shared.getAnnotationsFromSavedPins())
+        
+        // Check if there's any object recorded, then make the new region for the map and set it
+        if let region = DataHelper.shared.getMapCenterSaved(mapView: mapView) {
+            mapView.setRegion(region, animated: true)
+        }
         
         // Set delegate of the map view to self (functions in extenstion below)
         mapView.delegate = self
-    }
-    
-    private func fillMap() {
-        // Fill map with saved data (if any)
-        let fetch:NSFetchRequest<Pin> = Pin.fetchRequest()
-        if let result = try? DataControllerSingleton.shared.viewContext.fetch(fetch) {
-            for item in result {
-                addPinToMap(item)
-            }
-        }
-    }
-    
-    private func addPinToMap(_ pin:Pin) {
-        let newAnnotation = MKPointAnnotation()
-        newAnnotation.coordinate.latitude = pin.latitude
-        newAnnotation.coordinate.longitude = pin.longitude
-        mapView.addAnnotation(newAnnotation)
-    }
-    
-    private func centerMap() {
-        // Check if there's any object recorded, then make the new region for the map and set it
-        if let recordedLatitude = UserDefaults.standard.object(forKey: latitudeValueKey) as? CLLocationDegrees,
-            let recordedLongitude = UserDefaults.standard.object(forKey: longitudeValueKey)  as? CLLocationDegrees,
-            let recordedSpanLatitude = UserDefaults.standard.object(forKey: latitudeSpanValueKey) as? CLLocationDegrees,
-            let recordedSpanLongitude = UserDefaults.standard.object(forKey: longitudeSpanValueKey)  as? CLLocationDegrees
-        {
-            let newCenter:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: recordedLatitude, longitude: recordedLongitude)
-            let newSpan:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: recordedSpanLatitude, longitudeDelta: recordedSpanLongitude)
-            let newRegion:MKCoordinateRegion = MKCoordinateRegion(center: newCenter, span: newSpan)
-            let regionThatFits = mapView.regionThatFits(newRegion)
-            mapView.setRegion(regionThatFits, animated: true)
-        }
     }
     
     @objc private func addPinToMap(longGesture: UIGestureRecognizer) {
@@ -103,19 +69,9 @@ class MapViewController: UIViewController {
         } else if longGesture.state == .ended {
             // If the user lift the finger, work is done.
             // Let's nil the current annotation object and save the pin to coredata.
-            setPintToCoreData(pinToSave: currentAnnotation!.coordinate)
+            DataHelper.shared.saveNewAnnotationAsPin(currentAnnotation!)
             currentAnnotation = nil
         }
-    }
-    
-    private func setPintToCoreData(pinToSave:CLLocationCoordinate2D) {
-        // Save the pin to core data
-        let pin:Pin = Pin(context: DataControllerSingleton.shared.viewContext)
-        pin.latitude = pinToSave.latitude
-        pin.longitude = pinToSave.longitude
-        try? DataControllerSingleton.shared.viewContext.save()
-        // Put its image list to download in background
-        FlickrHelper.shared.downloadPhotosFromPin(pin)
     }
 }
 
@@ -124,15 +80,13 @@ extension MapViewController: MKMapViewDelegate {
     // MARK: Mapview Delegate Functions
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
-            print("Did select: ", annotation.coordinate)
+            DataHelper.shared.currentAnnotation = annotation
+            performSegue(withIdentifier: "segueToPhotoAlbum", sender: nil)
         }
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        UserDefaults.standard.set(mapView.region.center.latitude, forKey: latitudeValueKey)
-        UserDefaults.standard.set(mapView.region.center.longitude, forKey: longitudeValueKey)
-        UserDefaults.standard.set(mapView.region.span.latitudeDelta, forKey: latitudeSpanValueKey)
-        UserDefaults.standard.set(mapView.region.span.longitudeDelta, forKey: longitudeSpanValueKey)
+        DataHelper.shared.setNewMapRegion(mapView.region)
     }
 }
 

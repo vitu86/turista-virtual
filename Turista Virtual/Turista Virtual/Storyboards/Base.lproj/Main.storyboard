@@ -62,13 +62,27 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="a9f-3U-dN8">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoAlbumCell" id="a9f-3U-dN8" customClass="PhotoAlbumCell" customModule="Turista_Virtual" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4qt-m4-3W3">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                </imageView>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="4qt-m4-3W3" secondAttribute="bottom" id="53T-5X-jzU"/>
+                                            <constraint firstItem="4qt-m4-3W3" firstAttribute="leading" secondItem="a9f-3U-dN8" secondAttribute="leading" id="B7t-Rs-OEa"/>
+                                            <constraint firstItem="4qt-m4-3W3" firstAttribute="top" secondItem="a9f-3U-dN8" secondAttribute="top" id="XDq-ba-3u5"/>
+                                            <constraint firstAttribute="trailing" secondItem="4qt-m4-3W3" secondAttribute="trailing" id="bEN-T6-grU"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="4qt-m4-3W3" id="0hS-f3-dER"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -77,7 +91,10 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="7wS-BM-8aF"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="New Collection"/>
+                                <connections>
+                                    <action selector="newCollectionTapped:" destination="meE-df-aKV" eventType="touchUpInside" id="wiS-dQ-xSk"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -96,6 +113,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ha7-lB-FnZ"/>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="Za3-w1-BVE" id="Ivl-18-zKG"/>
+                        <outlet property="collectionViewFlowLayout" destination="APQ-gs-9ki" id="v4c-Q7-kS9"/>
+                        <outlet property="mapView" destination="vD6-bE-krB" id="bee-TW-ds7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="53g-PC-Lvq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
