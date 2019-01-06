@@ -77,4 +77,8 @@ class DataHelper {
             return nil
         }
     }
+    
+    func deletePhoto(_ photo:Photo) {
+        CoreDataHelper.shared.deletePhoto(photo)
+    }
 }

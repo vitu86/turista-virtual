@@ -81,4 +81,9 @@ class CoreDataHelper {
         fetchRequest.predicate = predicate
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: "notebooks")
     }
+    
+    func deletePhoto(_ photo:Photo) {
+        viewContext.delete(photo)
+        try? viewContext.save()
+    }
 }

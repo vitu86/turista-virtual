@@ -30,6 +30,7 @@ class PhotoAlbumViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        fetchedResultsController = nil
     }
     
     // MARK: Private functions
@@ -53,30 +54,21 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     private func configureLayout() {
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        let space:CGFloat = 10
-        let constraintsMargins:CGFloat = 10
-        
-        var division:CGFloat = 0
-        
-        // If device is in landscape mode, change the number of itens in screen
-        if UIDevice.current.orientation.isLandscape {
-            division = 6
+        let space: CGFloat
+        let dimension: CGFloat
+        if (UIDevice.current.orientation.isPortrait) {
+            space = 3.0
+            dimension = (view.frame.size.width - (2 * space)) / 3
         } else {
-            division = 3
+            space = 1.0
+            dimension = (view.frame.size.width - (1 * space)) / 5
         }
-        
-        let dimension = (view.frame.size.width - (2 * space) - (2 * constraintsMargins)) / division
-        
         collectionViewFlowLayout.minimumInteritemSpacing = space
-        collectionViewFlowLayout.minimumLineSpacing = space
         collectionViewFlowLayout.itemSize = CGSize(width: dimension, height: dimension)
-        
         collectionView.reloadData()
-        
     }
     
     // MARK: IBActions
@@ -105,6 +97,14 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        showAlert(title: "Atenção", message: "Você deseja remover esta imagem?", okFunction: { (_) in
+            DataHelper.shared.deletePhoto(self.fetchedResultsController.object(at: indexPath))
+        }) { (_) in
+            // Do nothing, popup dismiss itself.
+        }
     }
 }
 
