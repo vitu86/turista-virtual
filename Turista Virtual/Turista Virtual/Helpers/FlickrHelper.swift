@@ -14,7 +14,7 @@ class FlickrHelper {
     static let shared:FlickrHelper = FlickrHelper()
     
     // MARK: Private properties and constants
-    private let flickr_api_key:String = "36d4bbc25bbadefaeaae521e88642e9a"
+    private let flickrApiKey:String = "36d4bbc25bbadefaeaae521e88642e9a"
     
     private var latitude:Double = 0.0
     private var longitude:Double = 0.0
@@ -34,7 +34,12 @@ class FlickrHelper {
         latitude = pin.latitude
         longitude = pin.longitude
         
-        getPhotoListURL = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(flickr_api_key)&lat=\(latitude)&lon=\(longitude)&per_page=30&format=json&nojsoncallback=1"
+        // Flickr gives as the maximum of 4000 photos, as we are using 20 photos per page,
+        // the max number of pages is 200.
+        // So we get a random number between 1 and 200
+        let randomPage:Int = Int(arc4random_uniform(200) + 1)
+        
+        getPhotoListURL = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(flickrApiKey)&lat=\(latitude)&lon=\(longitude)&page=\(randomPage)&per_page=20&format=json&nojsoncallback=1"
         
         // cancel tasks so we dont have problems with photos in wrong pins
         if let getPhotoListTask = getPhotoListTask {
@@ -74,7 +79,7 @@ class FlickrHelper {
     
     // Download image url and call download image data
     private func getPhotoImageURL (id: String) {
-        getImageFromPhotoURL = "https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=\(flickr_api_key)&photo_id=\(id)&format=json&nojsoncallback=1"
+        getImageFromPhotoURL = "https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=\(flickrApiKey)&photo_id=\(id)&format=json&nojsoncallback=1"
         
         let request = NSMutableURLRequest(url: URL(string: getImageFromPhotoURL)!)
         let session = URLSession.shared

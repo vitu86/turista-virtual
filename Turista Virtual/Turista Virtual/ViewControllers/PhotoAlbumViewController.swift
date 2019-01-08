@@ -121,11 +121,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
             // still loading
             return
         }
-//        showAlert(title: "Atenção", message: "Você deseja remover esta imagem?", okFunction: { (_) in
-            DataHelper.shared.deletePhoto(self.fetchedResultsController.object(at: indexPath))
-//        }) { (_) in
-            // Do nothing, popup dismiss itself.
-//        }
+        DataHelper.shared.deletePhoto(self.fetchedResultsController.object(at: indexPath))
     }
 }
 
